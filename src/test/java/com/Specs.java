@@ -3,6 +3,7 @@ package com;
 import com.helperActions.HelperActionsUtils;
 import com.pageModules.pagesActions.HomePage;
 import com.utils.BaseSetup;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -26,17 +27,21 @@ public class Specs extends BaseSetup {
     }
 
     @Test
-    public void task1()  {
+    public void task1() {
         homePage = new HomePage(driver);
-        homePage.commonSteps();
-        homePage.navTopatientChart();
+        homePage.closePopUp();
+        homePage.navToChartNotes();
+        homePage.navToPatientChart();
         homePage.clickOnEditBtn();
         softAssert.assertEquals(homePage.getPhysicianNotes(),"Physician Notes");
         softAssert.assertAll();
-        homePage.frame();
     }
     @Test(dependsOnMethods ={"task1"})
     public void task2(){
+        homePage.clickOnHistoryTab();
+        homePage.frame();
+        driver.findElement(By.xpath("//div[text()='Physical Examination']")).click();
+        driver.findElement(By.linkText("Templates")).click();
 
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class HelperActionsUtils extends BaseSetup {
     public WebDriver driver;
     public WebDriverWait wait;
+    public WebElement webElement;
     public HelperActionsUtils(WebDriver driver) {
         this.driver = driver;
     }
@@ -66,6 +67,29 @@ public class HelperActionsUtils extends BaseSetup {
             String message = e.getCause().getMessage();
             BASE_LOGGER.error("Error encountered i.e : " + message
                     + " while performing safeClear on the element : " + element);
+        }
+    }
+
+    public void waitForElementNotToBeDisplay(By element, int timeOuts) {
+        try {
+            webElement = driver.findElement(element);
+            wait = new WebDriverWait(driver, timeOuts);
+            wait.until(ExpectedConditions.invisibilityOf(webElement));
+        } catch (Exception ex) {
+            String exceptionData = ex.getCause().getMessage();
+            BASE_LOGGER.error("waitForElementNotToBeDisplay operation has been failed for the locator : "
+                    + String.valueOf(element) + " with the exception i.e : " + exceptionData);
+        }
+    }
+
+    public void waitForElementToBeClickable(By element, int timeOuts) {
+        try {
+            wait = new WebDriverWait(driver, timeOuts);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+        } catch (Exception ex) {
+            String exceptionData = ex.getCause().getMessage();
+            BASE_LOGGER.error("waitForElementToBeClickable operation has been failed for the locator : "
+                    + String.valueOf(element) + " with the exception i.e : " + exceptionData);
         }
     }
 
